@@ -1,0 +1,420 @@
+/*
+   1. CUSTOM PROPERTIES & THEMING (Tokens) */
+:root {
+    /* Fonts */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /* Layout Tokens */
+    --max-width: 1100px;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Default Light Theme Palette */
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-surface: #edf2f7;
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --border-color: #e2e8f0;
+    --focus-ring: #60a5fa;
+}
+
+/* Automatic Dark Mode Media Query */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-surface: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --accent: #38bdf8;
+        --accent-hover: #0ea5e9;
+        --border-color: #334155;
+        --focus-ring: #0284c7;
+    }
+}
+
+/* ==========================================================================
+   2. CSS RESET & ACCESSIBILITY ACCENTS
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: var(--font-primary);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Skip Link Styles for Keyboard Users Only */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 9999;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--focus-ring);
+}
+
+/* Accessible Global Focus States */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+}
+
+/* ==========================================================================
+   3. GLOBAL LAYOUT ARCHITECTURE (Mobile-First)
+   ========================================================================== */
+header[role="banner"] {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(24, 30, 42, 0.8) ;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    
+    /* Local Flexbox Alignment */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+header .logo a {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+header nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+header nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+header nav a:hover {
+    color: var(--accent);
+}
+
+main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+section {
+    padding: 4rem 0;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+}
+
+/* ==========================================================================
+   4. SECTION LOCAL DESIGNS (Flexbox & Utility Components)
+   ========================================================================== */
+
+/* Hero Section */
+#home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 60vh;
+    gap: 1.5rem;
+}
+
+#home h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+#home .subtitle {
+    font-size: 1.25rem;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent);
+    color: #ffffff;
+    padding: 0.8rem 1.8rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+.cta-button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+/* Skills Section */
+#skills {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.skills-category {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.skills-category h3 {
+    margin-bottom: 1rem;
+    color: var(--accent);
+}
+
+.skills-category ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.skills-category li {
+    background: var(--bg-primary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   5. TWO-DIMENSIONAL CSS GRID (Projects Layout)
+   ========================================================================== */
+#projects h2 {
+    margin-bottom: 2rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default mobile 1-column layout */
+    gap: 2.5rem;
+}
+
+.project-card {
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.15);
+}
+
+.project-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: var(--bg-surface);
+}
+
+.project-card h3 {
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+}
+
+.project-card p {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    color: var(--text-secondary);
+    flex-grow: 1; /* Pushes tags and actions to the absolute card bottom */
+}
+
+.tech-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0 1.5rem 1rem 1.5rem;
+}
+
+.tech-tags li {
+    font-size: 0.8rem;
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.project-links {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.project-links a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   6. CONTACT FORM SYSTEM (Flexbox Validation Structuring)
+   ========================================================================== */
+.contact-form fieldset {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-form legend {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-control label {
+    font-weight: 500;
+}
+
+.form-control input,
+.form-control textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+    border-color: var(--accent);
+}
+
+.submit-btn {
+    align-self: flex-start;
+    background-color: var(--accent);
+    color: #ffffff;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.submit-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Footer Landmark */
+footer[role="contentinfo"] {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+footer nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+footer nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+footer nav a:hover {
+    color: var(--accent);
+}
+
+/* ==========================================================================
+   7. WIDE DEVICE RESPONSIVE ARCHITECTURE (Media Queries)
+   ========================================================================== */
+
+/* Tablet Optimization breakpoint */
+@media (min-width: 768px) {
+    header[role="banner"] {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.2rem 3rem;
+    }
+
+    #home h1 {
+        font-size: 3.5rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr); /* Split grid to perfect two-column matrix */
+    }
+    
+    #skills {
+        flex-direction: row; /* Transform skills categories horizontally */
+    }
+    
+    .skills-category {
+        flex: 1;
+    }
+}
+
+/* Desktop Polish breakpoint */
+@media (min-width: 1024px) {
+    main {
+        padding: 4rem 2rem;
+    }
+
+    section {
+        padding: 6rem 0;
+    }
+}
